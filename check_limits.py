@@ -1,18 +1,36 @@
+def battery_is_ok(value: float, min_val: float, max_val: float, param_name: str) -> bool:
+        
+    is_ok = (min_val <= value <= max_val)
+    
+    if not is_ok:
+        print(f"{param_name} is out of range!")
+        
+    return is_ok
 
-def battery_is_ok(temperature, soc, charge_rate):
-  if temperature < 0 or temperature > 45:
-    print('Temperature is out of range!')
-    return False
-  elif soc < 20 or soc > 80:
-    print('State of Charge is out of range!')
-    return False
-  elif charge_rate > 0.8:
-    print('Charge rate is out of range!')
-    return False
-
-  return True
-
-
+# --- Example Usage ---
 if __name__ == '__main__':
-  assert(battery_is_ok(25, 70, 0.7) is True)
-  assert(battery_is_ok(50, 85, 0) is False)
+    
+    result = battery_is_ok(25, 0, 45, "Temperature")
+    assert result is True
+    
+    result = battery_is_ok(50, 0, 45, "Temperature")
+    assert result is False
+
+    result = battery_is_ok(70, 20, 80, "State of Charge")
+    assert result is True
+
+    result = battery_is_ok(15, 20, 80, "State of Charge")
+    assert result is False
+
+    result = battery_is_ok(0.7, -float('inf'), 0.8, "Charge Rate")
+    assert result is True
+
+    result = battery_is_ok(0.9, -float('inf'), 0.8, "Charge Rate")
+    assert result is False
+
+    temp_ok = battery_is_ok(25, 0, 45, "Temperature")
+    soc_ok = battery_is_ok(70, 20, 80, "State of Charge")
+    charge_rate_ok = battery_is_ok(0.7, -float('inf'), 0.8, "Charge Rate")
+
+    overall_ok = temp_ok and soc_ok and charge_rate_ok
+    assert overall_ok is True # Example
